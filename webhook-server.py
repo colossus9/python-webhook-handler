@@ -1,4 +1,4 @@
-import json, os, sys
+import json, os, requests, sys
 from flask import Flask, request, abort, jsonify
 from urlparse import urlparse
 
@@ -62,7 +62,11 @@ def webhookServer():
 
                 elif EVENT == "repository":
                     print 'Event Action: ' + request.json["action"]
-                    debugPrintWebhookJSON(request.json)
+                    debugPrintWebhookJSON(request.json
+                    orgRepo = request.json["repository"]["full_name"]
+                    endpoint = 'https://ec2-35-164-144-23.us-west-2.compute.amazonaws.com/api/v3/teams/7/repos/' + orgRepo + '?permission=admin'
+                    r = requests.put(endpoint, data = None)
+                    print r
                     return jsonify({'event':'repository','status':'success'}), 200
 
                 elif EVENT == "create":
