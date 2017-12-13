@@ -30,7 +30,10 @@ def webhookServer():
         #elif event == "create":
         #    return jsonify({'event':'create','status':'success'}), 200
 
-        getattr(sys.modules[__name__], str(event)()  # Call the method based on the event type
+        try:
+            getattr(sys.modules[__name__], str(event))()  # Call the method based on the event type
+        except Exception as e:
+            errMsg('Problem encountered while running ' + str(event) + '; ' + str(e))
 
     else:
         abort(400)
