@@ -8,6 +8,12 @@ credFile = str('/tmp/creds.json')
 @app.route('/webhook-server', methods=['GET', 'POST'])
 def webhookServer():
 
+    # Define some vars
+    EVENT = None
+    GHE_URL = None
+    GHE_HOST = None
+    TOKEN = None
+
     # Let's go ahead and make GET requests happy. You could use it to test firewall rules
     if request.method == 'GET':
         return jsonify({'method':'GET','status':'success'}), 200
@@ -17,8 +23,6 @@ def webhookServer():
 
         # Debugging output
         print ' '
-        print '======= DEBUG: ENVIRONMENT ======='
-        print 'GHE_URL=' + json.loads(request.data)['hook']['url']
         print '======= DEBUG: BEGIN REQUEST JSON ======='
         print(json.dumps(request.json))
         print '======= DEBUG: END REQUEST JSON ======='
@@ -32,14 +36,13 @@ def webhookServer():
 
         # Getting the source hostname
         print 'Getting hostname...'
-        GHE_URL = json.loads(request.data)['hook']['url']
+        GHE_URL = urlparse(json.loads(request.data)['hook']['url'])
         GHE_HOST = GHE_URL.hostname
         print '  ' + GHE_HOST
         print ' '
 
         # Grab the credential for the source GitHub Enterprise server
         print 'Getting credential...'
-        TOKEN = None
 
         if os.path.isfile(credFile):
             creds = json.load(open(credFile))
