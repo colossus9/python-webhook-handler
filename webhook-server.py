@@ -15,7 +15,7 @@ def webhookServer():
 
         # Debugging output
         print '======= DEBUG: BEGIN REQUEST JSON ======='
-        print(jsonify(request.json))
+        print(json.dumps(request.json))
         print '======= DEBUG: END REQUEST JSON ======='
 
         # Let's get the webhook event so we know what happened
