@@ -48,11 +48,10 @@ def webhookServer():
 
             # No token was found
             if TOKEN == None:
-                print 'No token found'
+                print 'No token found in ' + credFile + ', so we are unable execute actions against GitHub Enterprise.'
 
             # A valid GitHub Enterprise token was found
             else:
-                print 'Retrieved credential'
                 #print 'Token is ' + TOKEN
 
                 # Perform actions based on the event that occurred. Events are defined at:
