@@ -1,7 +1,9 @@
-import json, sys
+import json, os, sys
 from flask import Flask, request, abort, jsonify
+from urlparse import urlparse
 
 app = Flask(__name__)
+credFile = str('/tmp/creds.json')
 
 @app.route('/webhook-server', methods=['GET', 'POST'])
 def webhookServer():
@@ -16,27 +18,61 @@ def webhookServer():
         # Debugging output
         print ' '
         print '======= DEBUG: ENVIRONMENT ======='
-        print 'GHE_ADDRESS=' + json.loads(request.data)['hook']['url']
+        print 'GHE_URL=' + json.loads(request.data)['hook']['url']
         print '======= DEBUG: BEGIN REQUEST JSON ======='
         print(json.dumps(request.json))
         print '======= DEBUG: END REQUEST JSON ======='
         print ' '
 
         # Let's get the webhook event so we know what happened
-        event = request.headers.get('X-GitHub-Event')
-        creds = json.load(open('/tmp/creds.json'))
-        print creds["servers"][0]["token"]
+        print 'Getting webhook event...'
+        EVENT = request.headers.get('X-GitHub-Event')
+        print '  ' + EVENT
+        print ' '
+
+        # Getting the source hostname
+        print 'Getting hostname...'
+        GHE_URL = json.loads(request.data)['hook']['url']
+        GHE_HOST = GHE_URL.hostname
+        print '  ' + GHE_HOST
+        print ' '
+
+        # Grab the credential for the source GitHub Enterprise server
+        print 'Getting credential...'
+        TOKEN = None
+
+        if os.path.isfile(credFile):
+            creds = json.load(open(credFile))
+            for key, value in creds["servers"].iteritems():
+                if key == GHE_HOST:
+                    TOKEN = value
+
+            if TOKEN == None:
+                print 'WARN: Credential not found in ' + credFile + '. Unable to authenticate to API endpoint.'
+
+            else:
+                print TOKEN
+
+
+            #print creds["servers"][0]["token"]
+
+        else:
+            print 'Error: The file ' + credFile + ' does not exist.'
+            abort(400)
 
         # Perform actions based on the event that occurred. Events are defined at:
         # https://developer.github.com/v3/activity/events/types/
-        if event == "ping":
+        if EVENT == "ping":
             return jsonify({'event':'ping','status':'success'}), 200
 
-        elif event == "repository":
+        elif EVENT == "repository":
             return jsonify({'event':'repository','status':'success'}), 200
 
-        elif event == "create":
+        elif EVENT == "create":
             return jsonify({'event':'create','status':'success'}), 200
+
+        else:
+            return jsonify({'event':'other','status':'success'}), 200
 
     else:
         abort(400)
