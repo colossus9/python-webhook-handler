@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ def webhookServer():
 
         # Debugging output
         print '======= DEBUG: BEGIN REQUEST JSON ======='
-        print(json.dumps(request.json))
+        print(jsonify(request.json))
         print '======= DEBUG: END REQUEST JSON ======='
 
         # Let's get the webhook event so we know what happened
