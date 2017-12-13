@@ -21,7 +21,7 @@ def webhookServer():
     # Webhooks will make POST requests
     elif request.method == 'POST':
 
-        # Debugging output
+        # Debug output
         print ' '
         print '======= DEBUG: BEGIN REQUEST JSON ======='
         print(json.dumps(request.json))
@@ -36,7 +36,7 @@ def webhookServer():
 
         # Getting the source hostname
         print 'Getting hostname...'
-        GHE_URL = urlparse(json.loads(request.data)['hook']['url'])
+        GHE_URL = urlparse(json.loads(request.data)['organization']['url'])
         GHE_HOST = GHE_URL.hostname
         print '  ' + GHE_HOST
         print ' '
@@ -51,8 +51,9 @@ def webhookServer():
                     TOKEN = server["token"]
                     break
 
+            # We have a valid credential to work with.
             if TOKEN == None:
-                print 'Warning: Credential not found in ' + credFile + '. Unable to authenticate to API endpoint, but you can still view webhook payloads.'
+                print '  Done.'
 
             else:
                 print 'Token is ' + TOKEN
