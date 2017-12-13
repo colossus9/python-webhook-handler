@@ -3,8 +3,8 @@ from flask import Flask, request, abort
 app = Flask(__name__)
 
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
+@app.route('/webhook-server', methods=['POST'])
+def webhookServer():
     if request.method == 'POST':
         print ' '
         print(request.json)
