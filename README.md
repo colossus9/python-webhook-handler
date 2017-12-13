@@ -6,6 +6,12 @@ Reference: https://ogma-dev.github.io/posts/simple-flask-webhook/
 
 ## Install Instructions
 
+1. Install `python` and `pip`:
+
+    ```
+    sudo yum install python27 python-pip -y
+    ```
+
 1. Clone the repository and navigate to the workspace:
 
     ```
@@ -17,4 +23,10 @@ Reference: https://ogma-dev.github.io/posts/simple-flask-webhook/
 
     ```
     pip install -r requirements.txt
+    ```
+
+1. Run the server:
+
+    ```
+    python webhook-server.py
     ```
