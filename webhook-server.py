@@ -21,22 +21,23 @@ def webhookServer():
     # Webhooks will make POST requests
     elif request.method == 'POST':
 
-        # Let's get the webhook event so we know what happened
-        print 'Getting webhook event...'
-        EVENT = request.headers.get('X-GitHub-Event')
-        print '  ' + EVENT
         print ' '
+
+        # Let's get the webhook event so we know what happened
+        #print 'Getting webhook event...'
+        EVENT = request.headers.get('X-GitHub-Event')
+        #print '  ' + EVENT
+        #print ' '
 
         # Getting the source hostname
-        print 'Getting hostname...'
+        #print 'Getting hostname...'
         GHE_URL = urlparse(json.loads(request.data)['organization']['url'])
         GHE_HOST = GHE_URL.hostname
-        print '  ' + GHE_HOST
-        print ' '
+        #print '  ' + GHE_HOST
+        #print ' '
 
         # Grab the credential for the source GitHub Enterprise server
-        print 'Getting credential...'
-
+        #print 'Getting credential...'
         if os.path.isfile(credFile):
             creds = json.load(open(credFile))
             for server in creds["servers"]:
@@ -46,11 +47,11 @@ def webhookServer():
 
             # No token was found
             if TOKEN == None:
-                print '  No token found.'
+                print 'No token found'
 
             # A valid GitHub Enterprise token was found
             else:
-                print '  Done.'
+                print 'Retrieved credential'
                 #print 'Token is ' + TOKEN
 
                 # Perform actions based on the event that occurred. Events are defined at:
