@@ -23,15 +23,23 @@ def webhookServer():
 
         # Perform actions based on the event that occurred. Events are defined at:
         # https://developer.github.com/v3/activity/events/types/
-        if event == "ping":
-            return jsonify({'event':'ping','status':'success'}), 200
-        elif event == "repository":
-            return jsonify({'event':'repository','status':'success'}), 200
-        elif event == "create":
-            return jsonify({'event':'create','status':'success'}), 200
+        #if event == "ping":
+        #    return jsonify({'event':'ping','status':'success'}), 200
+        #elif event == "repository":
+        #    return jsonify({'event':'repository','status':'success'}), 200
+        #elif event == "create":
+        #    return jsonify({'event':'create','status':'success'}), 200
+
+        try:
+            getattr(sys.modules[__name__], str(event))()  # Call the method with the name of event
+        except Exception as e:
+            errMsg('Problem encountered while running ' + str(event) + '; ' + str(e))
 
     else:
         abort(400)
+
+def ping():
+    return jsonify({'event':'ping','status':'success'}), 200
 
 if __name__ == '__main__':
     app.run(host= '0.0.0.0')  # Run on the machine's IP address and not just localhost
