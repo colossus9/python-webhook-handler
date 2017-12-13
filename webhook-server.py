@@ -26,6 +26,7 @@ def webhookServer():
         # Let's get the webhook event so we know what happened
         #print 'Getting webhook event...'
         EVENT = request.headers.get('X-GitHub-Event')
+        print '----------> Received event: ' + EVENT
         #print '  ' + EVENT
         #print ' '
 
@@ -78,6 +79,10 @@ def webhookServer():
                 elif EVENT == "label":
                     print 'Received label event'
                     return jsonify({'event':'label','status':'success'}), 200
+
+                elif EVENT == "push":
+                    print 'Received push event'
+                    return jsonify({'event':'push','status':'success'}), 200
 
                 else:
                     print 'Received other event'
