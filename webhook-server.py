@@ -45,9 +45,8 @@ def webhookServer():
         print 'Getting credential...'
 
         if os.path.isfile(credFile):
-            print 'isfile=true'
             creds = json.load(open(credFile))
-            for key, value in creds["servers"].iteritems():
+            for key, value in creds["servers"][0].iteritems():
                 if key == GHE_HOST:
                     TOKEN = value
 
