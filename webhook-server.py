@@ -58,34 +58,27 @@ def webhookServer():
                 # Perform actions based on the event that occurred. Events are defined at:
                 # https://developer.github.com/v3/activity/events/types/
                 if EVENT == "ping":
-                    print 'Received ping event'
                     debugPrintWebhookJSON(request.json)
                     return jsonify({'event':'ping','status':'success'}), 200
 
                 elif EVENT == "repository":
-                    print 'Received repository event'
                     debugPrintWebhookJSON(request.json)
                     return jsonify({'event':'repository','status':'success'}), 200
 
                 elif EVENT == "create":
-                    print 'Received create event'
                     debugPrintWebhookJSON(request.json)
                     return jsonify({'event':'create','status':'success'}), 200
 
                 elif EVENT == "organization":
-                    print 'Received organization event'
                     return jsonify({'event':'organization','status':'success'}), 200
 
                 elif EVENT == "label":
-                    print 'Received label event'
                     return jsonify({'event':'label','status':'success'}), 200
 
                 elif EVENT == "push":
-                    print 'Received push event'
                     return jsonify({'event':'push','status':'success'}), 200
 
                 else:
-                    print 'Received other event'
                     return jsonify({'event':'other','status':'success'}), 200
 
         else:
