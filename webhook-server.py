@@ -65,7 +65,6 @@ def webhookServer():
                     debugPrintWebhookJSON(request.json)
                     orgRepo = request.json["repository"]["full_name"]
                     api_url = 'https://ec2-35-164-144-23.us-west-2.compute.amazonaws.com/api/v3/teams/7/repos/' + orgRepo + '?permission=admin'
-                    print 'DEBUG: The api_url is ' + api_url
                     headers = {'Accept':'application/vnd.github.v3+json','Authorization':'token ' + TOKEN}
                     r = requests.put(api_url, data = None, headers = headers, verify = False)  # Only set verify=False on a test instance
                     print r
