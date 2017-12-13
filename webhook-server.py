@@ -7,7 +7,7 @@ app = Flask(__name__)
 def webhookServer():
 
     # Define vars
-    GHE_ADDRESS = os.environ.get('GHE_ADDRESS', None)  # The address of the GitHub Enterprise server
+    #GHE_ADDRESS = os.environ.get('GHE_ADDRESS', None)  # The address of the GitHub Enterprise server
 
     # Let's go ahead and make GET requests happy. You could use it to test firewall rules
     if request.method == 'GET':
@@ -19,11 +19,7 @@ def webhookServer():
         # Debugging output
         print ' '
         print '======= DEBUG: ENVIRONMENT ======='
-        print 'url=' + request.url
-        print 'base_url=' + request.base_url
-        print 'url_root=' + request.url_root
-        print 'data=' + request.data
-        print 'headers=' + json.dumps(request.url)
+        print 'GHE_ADDRESS=' + request.hook.url
         print '======= DEBUG: BEGIN REQUEST JSON ======='
         print(json.dumps(request.json))
         print '======= DEBUG: END REQUEST JSON ======='
