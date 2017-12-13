@@ -21,13 +21,6 @@ def webhookServer():
     # Webhooks will make POST requests
     elif request.method == 'POST':
 
-        # Debug output
-        print ' '
-        print '======= DEBUG: BEGIN REQUEST JSON ======='
-        print(json.dumps(request.json))
-        print '======= DEBUG: END REQUEST JSON ======='
-        print ' '
-
         # Let's get the webhook event so we know what happened
         print 'Getting webhook event...'
         EVENT = request.headers.get('X-GitHub-Event')
@@ -63,16 +56,22 @@ def webhookServer():
                 # Perform actions based on the event that occurred. Events are defined at:
                 # https://developer.github.com/v3/activity/events/types/
                 if EVENT == "ping":
+                    debugPrintWebhookJSON(request.json)
                     return jsonify({'event':'ping','status':'success'}), 200
 
                 elif EVENT == "repository":
+                    debugPrintWebhookJSON(request.json)
                     return jsonify({'event':'repository','status':'success'}), 200
 
                 elif EVENT == "create":
+                    debugPrintWebhookJSON(request.json)
                     return jsonify({'event':'create','status':'success'}), 200
 
-                elif EVENT == "membership":
-                    return jsonify({'event':'membership','status':'success'}), 200
+                elif EVENT == "organization":
+                    return jsonify({'event':'organization','status':'success'}), 200
+
+                elif EVENT == "label":
+                    return jsonify({'event':'label','status':'success'}), 200
 
                 else:
                     return jsonify({'event':'other','status':'success'}), 200
@@ -83,6 +82,15 @@ def webhookServer():
 
     else:
         abort(400)
+
+def debugPrintWebhookJSON(data):
+
+    # Debug output
+    print ' '
+    print '======= DEBUG: BEGIN REQUEST JSON ======='
+    print(json.dumps(data))
+    print '======= DEBUG: END REQUEST JSON ======='
+    print ' '
 
 if __name__ == '__main__':
     app.run(host= '0.0.0.0')  # Run on the machine's IP address and not just localhost
