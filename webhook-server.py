@@ -10,6 +10,8 @@ def webhookServer():
 
     elif request.method == 'POST':
         print ' '
+        print(json.dumps(request))
+        print ' '
         print(json.dumps(request.json))
         print ' '
 
