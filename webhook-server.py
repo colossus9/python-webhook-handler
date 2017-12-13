@@ -48,7 +48,7 @@ def webhookServer():
             creds = json.load(open(credFile))
             for server in creds["servers"]:
                 if server["url"] == GHE_HOST:
-                    TOKEN = value
+                    TOKEN = server["token"]
                     break
 
             if TOKEN == None:
