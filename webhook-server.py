@@ -66,7 +66,7 @@ def webhookServer():
                     orgRepo = request.json["repository"]["full_name"]
                     endpoint = 'https://ec2-35-164-144-23.us-west-2.compute.amazonaws.com/api/v3/teams/7/repos/' + orgRepo + '?permission=admin'
                     print 'DEBUG: The endpoint is ' + endpoint
-                    r = requests.put(endpoint, data = None)
+                    r = requests.put(endpoint, data = None, verify=False)  # Only set verify=False on a test instance
                     print r
                     return jsonify({'event':'repository','status':'success'}), 200
 
