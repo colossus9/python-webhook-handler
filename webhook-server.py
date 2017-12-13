@@ -47,20 +47,15 @@ def webhookServer():
         if os.path.isfile(credFile):
             creds = json.load(open(credFile))
             for server in creds["servers"]:
-                print server["url"]
-                #for key, value in server.iteritems():
-                    #print key + ' ' + value
-                    #if server.url == GHE_HOST:
-                        #TOKEN = value
+                if server["url"] == GHE_HOST:
+                    TOKEN = value
+                    break
 
             if TOKEN == None:
-                print 'WARN: Credential not found in ' + credFile + '. Unable to authenticate to API endpoint.'
+                print 'Warning: Credential not found in ' + credFile + '. Unable to authenticate to API endpoint, but you can still view webhook payloads.'
 
             else:
-                print TOKEN
-
-
-            #print creds["servers"][0]["token"]
+                print 'Token is ' + TOKEN
 
         else:
             print 'Error: The file ' + credFile + ' does not exist.'
