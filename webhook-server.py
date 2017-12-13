@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, abort
 
 app = Flask(__name__)
@@ -9,9 +10,7 @@ def webhookServer():
 
     elif request.method == 'POST':
         print ' '
-        print(request)
-        print ' '
-        print(request.json)
+        print(json.dumps(request.json))
         print ' '
 
         return '', 200
