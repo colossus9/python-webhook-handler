@@ -45,11 +45,12 @@ def webhookServer():
         print 'Getting credential...'
 
         if os.path.isfile(credFile):
-            creds = json.load(open(credFile))
+            creds = json.loads(open(credFile))
             for server in creds["servers"]:
-                #for key, value in creds["servers"][0].iteritems():
-                if server.url == GHE_HOST:
-                    TOKEN = value
+                for key, value in server.iteritems():
+                    print key + ' ' + value
+                    #if server.url == GHE_HOST:
+                        #TOKEN = value
 
             if TOKEN == None:
                 print 'WARN: Credential not found in ' + credFile + '. Unable to authenticate to API endpoint.'
