@@ -1,6 +1,6 @@
 # python-webhook-handler
 
-Handle a GitHub Webhook payload with Flask
+Handle a GitHub Enterprise Webhook payload with Flask. It retrieves the source GitHub Enterprise hostname and uses the credential in `/tmp/creds.json`.
 
 Reference: https://ogma-dev.github.io/posts/simple-flask-webhook/
 
@@ -23,6 +23,27 @@ Reference: https://ogma-dev.github.io/posts/simple-flask-webhook/
 
     ```
     pip install -r requirements.txt
+    ```
+
+1. Create a `/tmp/creds.json` file of the following format. Note: The tokens must have the `admin:org` scope:
+
+    ```
+    {
+        "servers": [
+            {
+              "url":"GHE_SERVER_1",
+              "token":"XXXXXXX"
+            },
+            {
+              "url":"GHE_SERVER_2",
+              "token":"YYYYYYY"
+            },
+            {
+              "url":"GHE_SERVER_3",
+              "token":"ZZZZZZZ"
+            }
+        ]
+    }
     ```
 
 1. Run the server:

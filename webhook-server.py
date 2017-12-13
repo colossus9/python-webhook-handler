@@ -6,9 +6,6 @@ app = Flask(__name__)
 @app.route('/webhook-server', methods=['GET', 'POST'])
 def webhookServer():
 
-    # Define vars
-    #GHE_ADDRESS = os.environ.get('GHE_ADDRESS', None)  # The address of the GitHub Enterprise server
-
     # Let's go ahead and make GET requests happy. You could use it to test firewall rules
     if request.method == 'GET':
         return jsonify({'method':'GET','status':'success'}), 200
@@ -19,7 +16,7 @@ def webhookServer():
         # Debugging output
         print ' '
         print '======= DEBUG: ENVIRONMENT ======='
-        print 'GHE_ADDRESS=' + request.hook.url
+        print 'GHE_ADDRESS=' + json.loads(request.data)['hook']['url']
         print '======= DEBUG: BEGIN REQUEST JSON ======='
         print(json.dumps(request.json))
         print '======= DEBUG: END REQUEST JSON ======='
@@ -27,6 +24,8 @@ def webhookServer():
 
         # Let's get the webhook event so we know what happened
         event = request.headers.get('X-GitHub-Event')
+        creds = json.load(open('/tmp/creds.json'))
+        print creds["servers"][0]["token"]
 
         # Perform actions based on the event that occurred. Events are defined at:
         # https://developer.github.com/v3/activity/events/types/
