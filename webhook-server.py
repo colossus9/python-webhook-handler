@@ -61,15 +61,19 @@ def webhookServer():
                     return jsonify({'event':'ping','status':'success'}), 200
 
                 elif EVENT == "repository":
-                    print 'Event Action: ' + request.json["action"]
-                    debugPrintWebhookJSON(request.json)
-                    orgRepo = request.json["repository"]["full_name"]
-                    api_url = 'https://ec2-35-164-144-23.us-west-2.compute.amazonaws.com/api/v3/teams/7/repos/' + orgRepo + '?permission=admin'
-                    headers = {'Accept':'application/vnd.github.v3+json','Authorization':'token ' + TOKEN}
-                    params = {'permission':'admin'}
-                    r = requests.put(api_url, data=None, headers=headers, params=params, verify=False)  # Only set verify=False on a test instance
-                    print r
-                    return jsonify({'event':'repository','status':'success'}), 200
+                    event_action = request.json["action"]
+                    print 'Event Action: ' + event_action
+
+                    # Perform this API call when a repository is created
+                    if event_action == "created":
+                        debugPrintWebhookJSON(request.json)
+                        orgRepo = request.json["repository"]["full_name"]
+                        api_url = 'https://ec2-35-164-144-23.us-west-2.compute.amazonaws.com/api/v3/teams/7/repos/' + orgRepo + '?permission=admin'
+                        headers = {'Accept':'application/vnd.github.v3+json','Authorization':'token ' + TOKEN}
+                        params = {'permission':'admin'}
+                        r = requests.put(api_url, data=None, headers=headers, params=params, verify=False)  # Let's add a team to the repo. Only set verify=False on a test instance
+                        print r
+                        return jsonify({'event':'repository','status':'success'}), 200
 
                 elif EVENT == "create":
                     print 'Event Action: ' + request.json["action"]
