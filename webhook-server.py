@@ -51,30 +51,35 @@ def webhookServer():
                     TOKEN = server["token"]
                     break
 
-            # We have a valid credential to work with.
+            # No token was found
             if TOKEN == None:
-                print '  Done.'
+                print '  No token found.'
 
+            # A valid GitHub Enterprise token was found
             else:
-                print 'Token is ' + TOKEN
+                print '  Done.'
+                #print 'Token is ' + TOKEN
+
+                # Perform actions based on the event that occurred. Events are defined at:
+                # https://developer.github.com/v3/activity/events/types/
+                if EVENT == "ping":
+                    return jsonify({'event':'ping','status':'success'}), 200
+
+                elif EVENT == "repository":
+                    return jsonify({'event':'repository','status':'success'}), 200
+
+                elif EVENT == "create":
+                    return jsonify({'event':'create','status':'success'}), 200
+
+                elif EVENT == "membership":
+                    return jsonify({'event':'membership','status':'success'}), 200
+
+                else:
+                    return jsonify({'event':'other','status':'success'}), 200
 
         else:
             print 'Error: The file ' + credFile + ' does not exist.'
             abort(400)
-
-        # Perform actions based on the event that occurred. Events are defined at:
-        # https://developer.github.com/v3/activity/events/types/
-        if EVENT == "ping":
-            return jsonify({'event':'ping','status':'success'}), 200
-
-        elif EVENT == "repository":
-            return jsonify({'event':'repository','status':'success'}), 200
-
-        elif EVENT == "create":
-            return jsonify({'event':'create','status':'success'}), 200
-
-        else:
-            return jsonify({'event':'other','status':'success'}), 200
 
     else:
         abort(400)
