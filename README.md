@@ -2,7 +2,7 @@
 
 Handle a GitHub Enterprise Webhook payload with Flask. It retrieves the source GitHub Enterprise hostname and uses the credential in `/tmp/creds.json`. The idea is to use a single, simple webhook receiver for multiple instances of GitHub (Enterprise). 
 
-Reference: https://ogma-dev.github.io/posts/simple-flask-webhook/
+**Reference:** [Simple Flask Webhook](https://ogma-dev.github.io/posts/simple-flask-webhook/)
 
 ## Install Instructions
 
