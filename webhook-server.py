@@ -68,7 +68,7 @@ def webhookServer():
                     if event_action == "created":
                         debugPrintWebhookJSON(request.json)
                         orgRepo = request.json["repository"]["full_name"]
-                        api_url = 'https://ec2-35-164-144-23.us-west-2.compute.amazonaws.com/api/v3/teams/7/repos/' + orgRepo
+                        api_url = 'https://HOSTNAME/api/v3/teams/ID/repos/' + orgRepo
                         headers = {'Accept':'application/vnd.github.v3+json','Authorization':'token ' + TOKEN}
                         params = {'permission':'admin'}
                         r = requests.put(api_url, data=None, headers=headers, params=params, verify=False)  # Let's add a team to the repo. Only set verify=False on a test instance
