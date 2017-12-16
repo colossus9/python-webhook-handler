@@ -25,7 +25,7 @@ Handle a GitHub Enterprise Webhook payload with Flask. It retrieves the source G
     pip install -r requirements.txt
     ```
 
-1. Create a `/tmp/creds.json` file of the following format. Note: The tokens must have the `admin:org` scope:
+1. Create a `/tmp/creds.json` file of the following format. Note: The tokens must have the `admin:org` scope for the specific example described in `webhook-server.py`:
 
     ```
     {
